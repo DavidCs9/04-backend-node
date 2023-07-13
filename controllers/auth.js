@@ -15,8 +15,8 @@ const getMenu = (role = 'USER_ROLE') => {
         { titulo: 'ProgressBar', url: 'progress' },
         { titulo: 'Gráficas', url: 'grafica1' },
         { titulo: 'Promesas', url: 'promesas' },
-        { titulo: 'Rxjs', url: 'rxjs' }
-      ]
+        { titulo: 'Rxjs', url: 'rxjs' },
+      ],
     },
     {
       titulo: 'Mantenimientos',
@@ -24,9 +24,9 @@ const getMenu = (role = 'USER_ROLE') => {
       submenu: [
         // { titulo: 'Usuarios', url: 'usuarios' },
         { titulo: 'Hospitales', url: 'hospitales' },
-        { titulo: 'Médicos', url: 'medicos' }
-      ]
-    }
+        { titulo: 'Médicos', url: 'medicos' },
+      ],
+    },
   ]
 
   if (role === 'ADMIN_ROLE') {
@@ -46,7 +46,7 @@ const login = async (req, res = response) => {
     if (!usuarioDB) {
       return res.status(404).json({
         ok: false,
-        msg: 'Email no encontrado'
+        msg: 'Email no encontrado',
       })
     }
 
@@ -55,7 +55,7 @@ const login = async (req, res = response) => {
     if (!validPassword) {
       return res.status(400).json({
         ok: false,
-        msg: 'Contraseña no válida'
+        msg: 'Contraseña no válida',
       })
     }
 
@@ -65,13 +65,13 @@ const login = async (req, res = response) => {
     res.json({
       ok: true,
       token,
-      menu: getMenu(usuarioDB.role)
+      menu: getMenu(usuarioDB.role),
     })
   } catch (error) {
     console.log(error)
     res.status(500).json({
       ok: false,
-      msg: 'Hable con el administrador'
+      msg: 'Hable con el administrador',
     })
   }
 }
@@ -92,7 +92,7 @@ const googleSignIn = async (req, res = response) => {
         email,
         password: '@@@',
         img: picture,
-        google: true
+        google: true,
       })
     } else {
       // existe usuario
@@ -109,12 +109,12 @@ const googleSignIn = async (req, res = response) => {
     res.json({
       ok: true,
       token,
-      menu: getMenu(usuario.role)
+      menu: getMenu(usuario.role),
     })
   } catch (error) {
     res.status(401).json({
       ok: false,
-      msg: 'Token no es correcto'
+      msg: 'Token no es correcto',
     })
   }
 }
@@ -132,12 +132,12 @@ const renewToken = async (req, res = response) => {
     ok: true,
     token,
     usuario,
-    menu: getMenu(usuario.role)
+    menu: getMenu(usuario.role),
   })
 }
 
 module.exports = {
   login,
   googleSignIn,
-  renewToken
+  renewToken,
 }

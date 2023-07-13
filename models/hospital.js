@@ -1,19 +1,22 @@
 const { Schema, model } = require('mongoose')
 
-const HospitalSchema = Schema({
-  nombre: {
-    type: String,
-    required: true
+const HospitalSchema = Schema(
+  {
+    nombre: {
+      type: String,
+      required: true,
+    },
+    img: {
+      type: String,
+    },
+    usuario: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'Usuario',
+    },
   },
-  img: {
-    type: String
-  },
-  usuario: {
-    required: true,
-    type: Schema.Types.ObjectId,
-    ref: 'Usuario'
-  }
-}, { collection: 'hospitales' })
+  { collection: 'hospitales' },
+)
 
 HospitalSchema.method('toJSON', function () {
   const { __v, ...object } = this.toObject()

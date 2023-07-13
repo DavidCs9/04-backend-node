@@ -11,14 +11,14 @@ const getTodo = async (req, res = response) => {
   const [usuarios, medicos, hospitales] = await Promise.all([
     Usuario.find({ nombre: regex }),
     Medico.find({ nombre: regex }),
-    Hospital.find({ nombre: regex })
+    Hospital.find({ nombre: regex }),
   ])
 
   res.json({
     ok: true,
     usuarios,
     medicos,
-    hospitales
+    hospitales,
   })
 }
 
@@ -37,8 +37,10 @@ const getDocumentosColeccion = async (req, res = response) => {
       break
 
     case 'hospitales':
-      data = await Hospital.find({ nombre: regex })
-        .populate('usuario', 'nombre img')
+      data = await Hospital.find({ nombre: regex }).populate(
+        'usuario',
+        'nombre img',
+      )
       break
 
     case 'usuarios':
@@ -49,17 +51,17 @@ const getDocumentosColeccion = async (req, res = response) => {
     default:
       return res.status(400).json({
         ok: false,
-        msg: 'La tabla tiene que ser usuarios/medicos/hospitales'
+        msg: 'La tabla tiene que ser usuarios/medicos/hospitales',
       })
   }
 
   res.json({
     ok: true,
-    resultados: data
+    resultados: data,
   })
 }
 
 module.exports = {
   getTodo,
-  getDocumentosColeccion
+  getDocumentosColeccion,
 }

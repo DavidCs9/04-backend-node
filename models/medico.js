@@ -3,22 +3,21 @@ const { Schema, model } = require('mongoose')
 const MedicoSchema = Schema({
   nombre: {
     type: String,
-    required: true
+    required: true,
   },
   img: {
-    type: String
+    type: String,
   },
   usuario: {
     type: Schema.Types.ObjectId,
     ref: 'Usuario',
-    required: true
+    required: true,
   },
   hospital: {
     type: Schema.Types.ObjectId,
     ref: 'Hospital',
-    required: true
-  }
-
+    required: true,
+  },
 })
 
 MedicoSchema.method('toJSON', function () {

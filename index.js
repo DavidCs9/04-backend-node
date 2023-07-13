@@ -23,7 +23,7 @@ app.use(express.static('public'))
 app.get('/', (req, res) => {
   res.json({
     ok: true,
-    msg: 'Servidor funcionando'
+    msg: 'Servidor funcionando',
   })
 })
 

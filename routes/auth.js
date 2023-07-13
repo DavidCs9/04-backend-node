@@ -9,26 +9,25 @@ const { validarJWT } = require('../middlewares/validar-jwt')
 
 const router = Router()
 
-router.post('/',
+router.post(
+  '/',
   [
     check('email', 'El email es obligatorio').isEmail(),
     check('password', 'El password es obligatorio').not().isEmpty(),
-    validarCampos
+    validarCampos,
   ],
-  login
+  login,
 )
 
-router.post('/google',
+router.post(
+  '/google',
   [
     check('token', 'El token de Google es obligatorio').not().isEmpty(),
-    validarCampos
+    validarCampos,
   ],
-  googleSignIn
+  googleSignIn,
 )
 
-router.get('/renew',
-  validarJWT,
-  renewToken
-)
+router.get('/renew', validarJWT, renewToken)
 
 module.exports = router
