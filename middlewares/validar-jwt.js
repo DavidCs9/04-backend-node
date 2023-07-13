@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-import { verify } from 'jsonwebtoken'
+const { verify } = require('jsonwebtoken')
+const Usuario = require('../models/usuario')
 
 const validarJWT = (req, res, next) => {
   // Leer el Token
@@ -26,10 +25,23 @@ const validarJWT = (req, res, next) => {
   }
 }
 
-const validarAdminRole = (req, res, next) => {
+const validarAdminRole = async (req, res, next) => {
   const uid = req.uid
   try {
-    console.log(uid)
+    const usuarioDB = await Usuario.findById(uid)
+    if (!usuarioDB) {
+      return res.status(404).json({
+        ok: false,
+        msg: 'Usuario no encontrado',
+      })
+    }
+    if (usuarioDB.role !== 'ADMIN_ROLE') {
+      return res.status(401).json({
+        ok: false,
+        msg: 'Acceso denegado',
+      })
+    }
+    next()
   } catch (error) {
     console.log(error)
     return res.status(500).json({
@@ -39,7 +51,35 @@ const validarAdminRole = (req, res, next) => {
   }
 }
 
-export default {
+const validarAdminRoleOMismoUsuario = async (req, res, next) => {
+  const uid = req.uid
+  const id = req.params.id
+  try {
+    const usuarioDB = await Usuario.findById(uid)
+    if (!usuarioDB) {
+      return res.status(404).json({
+        ok: false,
+        msg: 'Usuario no encontrado',
+      })
+    }
+    if (usuarioDB.role !== 'ADMIN_ROLE' && uid !== id) {
+      return res.status(401).json({
+        ok: false,
+        msg: 'Acceso denegado',
+      })
+    }
+    next()
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Hable con el administrador',
+    })
+  }
+}
+
+module.exports = {
   validarJWT,
   validarAdminRole,
+  validarAdminRoleOMismoUsuario,
 }
